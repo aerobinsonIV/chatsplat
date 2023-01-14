@@ -28,14 +28,13 @@ function getAnswerText (answers) {
         childElements = answer[i].children
         for(j=0; j<childElements.size; j++){
             if(childElements[j].tagName==='PRE'){
-                
+                extractCode(childElements[j])
             }
+            
         }
     }
     
-    function extractCode (){
-
-    }
+    
     //for loop through answers array
     // get children of answer list
     // for loop through children
@@ -47,6 +46,10 @@ function getAnswerText (answers) {
     //pre -> div bg-black mb-4 rounded-md -> 
     //class where code is going to be located
     //"p-4 overflow-y-auto"
+}
+
+function extractCode (){
+
 }
 
 document.getElementById("uwuBtn").addEventListener("click", uwu)
