@@ -48,8 +48,9 @@ function getAnswerText (answers) {
     //"p-4 overflow-y-auto"
 }
 
-function extractCode (){
-
+function extractCode (preHTML){
+    codeDiv = preHTML.getElementsByTagName("code")[0]
+    console.log(codeDiv);
 }
 
 document.getElementById("uwuBtn").addEventListener("click", uwu)
