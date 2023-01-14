@@ -1,5 +1,10 @@
-function uwu() {
-    alert("uwu")
+function printStuff() {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {action: "getHTML"}, function(response) {
+            var html = response.html;
+            console.log(html)
+        });
+    });
 }
 
 //copy text: get answer and question text of the webpage
@@ -24,16 +29,14 @@ function questionText (questions) {
 function getAnswerText (answers) {
     document.getElementsByTagName("pre")
     
-    for(i=0; i<answer.size; i++){
-        childElements = answer[i].children
+    for(i=0; i<answers.size; i++){
+        childElements = answers[i].children
         for(j=0; j<childElements.size; j++){
             if(childElements[j].tagName==='PRE'){
                 extractCode(childElements[j])
             }
-            
         }
     }
-    
     
     //for loop through answers array
     // get children of answer list
@@ -53,4 +56,4 @@ function extractCode (preHTML){
     console.log(codeDiv);
 }
 
-document.getElementById("uwuBtn").addEventListener("click", uwu)
+document.getElementById("parseBtn").addEventListener("click", printStuff)
