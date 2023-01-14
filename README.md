@@ -1,0 +1,2 @@
+# chatsplat
+Copy ChatGPT conversations
