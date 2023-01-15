@@ -995,10 +995,29 @@ function stringToHTML(inputString){
 
 //copy text: get answer and question text of the webpage
 function copyText(htmlObject){
-    // let questions = htmlObject.getElementsByClassName("min-h-[20px] flex flex-col items-start gap-4 whitespace-pre-wrap")
+    let questions = htmlObject.getElementsByClassName("min-h-[20px] flex flex-col items-start gap-4 whitespace-pre-wrap")
     let answers = htmlObject.getElementsByClassName("markdown prose w-full break-words dark:prose-invert light")
-    // questionText(questions)
-    answerText(answers)
+    let textQuestions = questionText(questions)
+    let textAnswers = answerText(answers)
+
+    let final = ""
+    for(i=0; i<textAnswers.length; i++){
+      final += textQuestions[i]
+      final += "\n---\n"
+      final += textAnswers[i]
+      if(i < textAnswers.length - 1){
+        final += "\n---\n"
+      }
+    }
+    // console.log(final)
+
+    navigator.clipboard.writeText(final)
+    .then(() => {
+        console.log("Text copied to clipboard");
+    })
+    .catch((err) => {
+        console.error("Failed to copy text: ", err);
+    });
 }
 
 function parseAnswer (answer) {
@@ -1010,9 +1029,7 @@ function questionText (questions) {
     
     // Every other thing is a question
     for(i=0; i<questions.length; i += 2){
-      questionList.push(questions[i].innerText)
-      console.log("## User:\n> " + questions[i].innerText)
-
+      questionList.push("## User:\n> " + questions[i].innerText + "\n")
     }
 
     return questionList
@@ -1066,8 +1083,9 @@ function answerText(answers) {
             }
            
         }
-        console.log(result)
+        finalAnswerStrings.push(result)
     }
+    return finalAnswerStrings
     
     //for loop through answers array
     // get children of answer list
