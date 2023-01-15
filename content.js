@@ -1,9 +1,5 @@
-console.log("I am the content script")
-
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         console.log(request.data);
-        // do something with the data
+        sendResponse("response data from content script");
     });
-
-console.log("Listener has been added!")
