@@ -1,15 +1,26 @@
 function printStuff() {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         chrome.tabs.sendMessage(tabs[0].id, {data: "Data from popup script"}, function(response) {
-            console.log(response);
+            htmlObject = stringToHTML(response)
+            console.log(htmlObject)
+            console.log(copyText(htmlObject));
         });
     });
 }
 
+function stringToHTML(inputString){
+    let parser = new DOMParser();
+    let htmlObject = parser.parseFromString(inputString, "text/html");
+    return htmlObject
+}
+
+
 //copy text: get answer and question text of the webpage
-function copyText () {
-    let questions = document.getElementsByClassName("min-h-[20px] flex flex-col items-start gap-4 whitespace-pre-wrap")
-    let answers = document.getElementsByClassName("markdown prose w-full break-words dark:prose-invert light")
+function copyText(htmlObject){
+    let questions = htmlObject.getElementsByClassName("min-h-[20px] flex flex-col items-start gap-4 whitespace-pre-wrap")
+    let answers = htmlObject.getElementsByClassName("markdown prose w-full break-words dark:prose-invert light")
+    questionText(questions)
+    getAnswerText(answers)
 }
 
 function parseAnswer (answer) {
