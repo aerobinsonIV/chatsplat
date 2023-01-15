@@ -1,5 +1,22 @@
-function questionText(questions) {
-    let questionText = []
+function printStuff() {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {data: "Data from popup script"}, function(response) {
+            console.log(response);
+        });
+    });
+}
+
+//copy text: get answer and question text of the webpage
+function copyText () {
+    let questions = document.getElementsByClassName("min-h-[20px] flex flex-col items-start gap-4 whitespace-pre-wrap")
+    let answers = document.getElementsByClassName("markdown prose w-full break-words dark:prose-invert light")
+}
+
+function parseAnswer (answer) {
+}
+
+function questionText (questions) {
+    questionText = []
     
     for(i=0; i<questions.size; i++){
         console.log(questions[i].innerText)
@@ -27,7 +44,6 @@ function getAnswerText(answers) {
         }
     }
     
-    
     //for loop through answers array
     // get children of answer list
     // for loop through children
@@ -54,5 +70,4 @@ function copyText () {
     getAnswerText(answers)
 }
 
-document.getElementById("navChat").addEventListener("click", copyText)
-
+document.getElementById("parseBtn").addEventListener("click", printStuff)

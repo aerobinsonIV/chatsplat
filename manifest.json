@@ -3,6 +3,12 @@
     "name": "My Extension",
     "version": "1.0",
     "description": "This is my first chrome extension",
+    "content_scripts": [
+        {
+          "matches": ["http://*/*", "https://*/*"],
+          "js": ["content.js"]
+        }
+    ],
     "permissions": ["activeTab"],
     "action": {
         "default_popup": "popup.html"
