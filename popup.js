@@ -975,11 +975,14 @@ var TurndownService = (function () {
 function printStuff() {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         chrome.tabs.sendMessage(tabs[0].id, {data: "Data from popup script"}, function(rawHTML) {
-            htmlObject = stringToHTML(rawHTML)
-            console.log(copyText(htmlObject));
-            // const turndownService = new TurndownService();
-            // const markdown = turndownService.turndown('<h1>Hello world!</h1>');
-            // console.log(markdown);
+          console.log(rawHTML)
+          htmlObject = stringToHTML(rawHTML)
+          console.log(htmlObject)
+          console.log("============================================================================")
+          console.log(copyText(htmlObject));
+          // const turndownService = new TurndownService();
+          // const markdown = turndownService.turndown('<h1>Hello world!</h1>');
+          // console.log(markdown);
         });
     });
 }
@@ -993,20 +996,26 @@ function stringToHTML(inputString){
 //copy text: get answer and question text of the webpage
 function copyText(htmlObject){
     let questions = htmlObject.getElementsByClassName("min-h-[20px] flex flex-col items-start gap-4 whitespace-pre-wrap")
-    let answers = htmlObject.getElementsByClassName("markdown prose w-full break-words dark:prose-invert light")
+    console.log(questions)
+    // let answers = htmlObject.getElementsByClassName("markdown prose w-full break-words dark:prose-invert light")
     questionText(questions)
-    getAnswerText(answers)
+    // getAnswerText(answers)
 }
 
 function parseAnswer (answer) {
 }
 
 function questionText (questions) {
-    questionText = []
+    console.log("in questionText")
+    let questionList = []
     
-    for(i=0; i<questions.size; i++){
-        console.log(questions[i].innerText)
+    // Every other thing is a question
+    for(i=0; i<questions.length; i += 2){
+      questionList.push(questions[i].innerText)
+      console.log(questions[i].innerText)
     }
+
+    return questionList
 }
 
 // TODO get rid of console logs, make statements that convert the HTML to markdown
