@@ -1011,7 +1011,8 @@ function questionText (questions) {
     // Every other thing is a question
     for(i=0; i<questions.length; i += 2){
       questionList.push(questions[i].innerText)
-      console.log(questions[i].innerText)
+      console.log("User:\n===================================\n" + questions[i].innerText)
+
     }
 
     return questionList
@@ -1022,7 +1023,7 @@ function answerText(answers) {
     
   //Iterate through answers
     for(i=0; i<answers.length; i++){
-
+        let result = "Chat GPT:\n======================================================================\n"
       // Iterate through children of each answer
         let childElements = answers[i].children
         for(j=0; j<childElements.length; j++){
@@ -1031,7 +1032,8 @@ function answerText(answers) {
             if(childElements[j].tagName === 'OL'|| childElements[j].tagName === 'UL'){
                 let listElements = childElements[j].children
                 for(k=0; k<listElements.length; k++) {
-                    console.log("- " + listElements[k].innerText)
+                    // console.log("- " + listElements[k].innerText)
+                    result += "- " + listElements[k].innerText + "\n"
                 }
             
             // Fancy schmancy code
@@ -1049,16 +1051,20 @@ function answerText(answers) {
                 // Insert actual line breaks in place of the special magic strings
                 let markdown_after_magic = markdown.replace(/\|\|\|\|\|\|\|\|\|/g, "\n")
 
-                console.log(markdown_after_magic);
+                // console.log(markdown_after_magic);
+                result += markdown_after_magic + "\n"
                 continue
             
             // normal text
             } else if(childElements[j].tagName === 'P') {
-                console.log(childElements[j].innerText)
+                // console.log(childElements[j].innerText)
+                result += childElements[j].innerText + "\n"
             } else {
                 console.log("how did we get here")
             }
+           
         }
+        console.log(result)
     }
     
     //for loop through answers array
