@@ -1057,8 +1057,14 @@ function answerText(answers) {
             // Fancy schmancy code
             } else if(childElements[j].tagName === 'PRE') {
 
+                codeDiv = childElements[j].children[0].children[1].children[0]
+                
+                //get code language
+                let codeType = Array.from(codeDiv.classList)[2].slice(9);
+                console.log("codeClass: " + codeType)
+
                 // Go 2 layers in so we get like the actual meat of the code or whatever
-                codeString = childElements[j].children[0].children[1].children[0].outerHTML
+                codeString = codeDiv.outerHTML
                 
                 // Replace line breaks with this special magic string that turndown will ignore
                 codeStringLineBreaks = codeString.replace(/\n/g, "|||||||||")
@@ -1067,7 +1073,8 @@ function answerText(answers) {
                 let markdown = turndownService.turndown(codeStringLineBreaks);
                 
                 // Insert actual line breaks in place of the special magic strings
-                let markdown_after_magic = "> ``" + markdown.replace(/\|\|\|\|\|\|\|\|\|/g, "\n") + "``"
+                // First char of string is sliced off so we can put in language
+                let markdown_after_magic = "> ```" + codeType + "\n" + markdown.replace(/\|\|\|\|\|\|\|\|\|/g, "\n").slice(1) + "``"
 
                 let markdown_after_magic_blockquote = markdown_after_magic.replace(/\n/g, "\n> ") + "\n"
 
