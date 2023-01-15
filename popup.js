@@ -974,13 +974,12 @@ var TurndownService = (function () {
 
 function printStuff() {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, {data: "Data from popup script"}, function(response) {
-            // htmlObject = stringToHTML(response)
-            // console.log(htmlObject)
-            // console.log(copyText(htmlObject));
-            const turndownService = new TurndownService();
-            const markdown = turndownService.turndown('<h1>Hello world!</h1>');
-            console.log(markdown);
+        chrome.tabs.sendMessage(tabs[0].id, {data: "Data from popup script"}, function(rawHTML) {
+            htmlObject = stringToHTML(rawHTML)
+            console.log(copyText(htmlObject));
+            // const turndownService = new TurndownService();
+            // const markdown = turndownService.turndown('<h1>Hello world!</h1>');
+            // console.log(markdown);
         });
     });
 }
