@@ -1,8 +1,11 @@
 {
     "manifest_version": 3,
-    "name": "My Extension",
+    "name": "ChatSplat",
     "version": "1.0",
-    "description": "This is my first chrome extension",
+    "description": "Convert ChatGPT conversations to Markdown",
+    "icons": {
+        "128": "icons/icon128.png"
+    },    
     "content_scripts": [
         {
           "matches": ["http://*/*", "https://*/*"],
