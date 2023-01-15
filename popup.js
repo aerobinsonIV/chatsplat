@@ -1078,6 +1078,9 @@ function answerText(answers) {
 
                 let markdown_after_magic_blockquote = markdown_after_magic.replace(/\n/g, "\n> ") + "\n"
 
+                // do indentations
+                markdown_after_magic_blockquote = markdown_after_magic_blockquote.replace(/  /g, "	")
+                
                 // console.log(markdown_after_magic_blockquote);
                 result += (markdown_after_magic_blockquote);
             
