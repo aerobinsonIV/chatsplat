@@ -1019,9 +1019,11 @@ function questionText (questions) {
 
 // TODO get rid of console logs, make statements that convert the HTML to markdown
 function answerText(answers) {
-    
+  finalAnswerStrings = []
+
   //Iterate through answers
     for(i=0; i<answers.length; i++){
+      currentAnswerString = ""
 
       // Iterate through children of each answer
         let childElements = answers[i].children
@@ -1031,7 +1033,8 @@ function answerText(answers) {
             if(childElements[j].tagName === 'OL'|| childElements[j].tagName === 'UL'){
                 let listElements = childElements[j].children
                 for(k=0; k<listElements.length; k++) {
-                    console.log("- " + listElements[k].innerText)
+                    // console.log("> - " + listElements[k].innerText)
+                    currentAnswerString += ("> - " + listElements[k].innerText + "\n")
                 }
             
             // Fancy schmancy code
@@ -1047,18 +1050,22 @@ function answerText(answers) {
                 let markdown = turndownService.turndown(codeStringLineBreaks);
                 
                 // Insert actual line breaks in place of the special magic strings
-                let markdown_after_magic = markdown.replace(/\|\|\|\|\|\|\|\|\|/g, "\n")
+                let markdown_after_magic = "> ``" + markdown.replace(/\|\|\|\|\|\|\|\|\|/g, "\n") + "``"
 
-                console.log(markdown_after_magic);
-                continue
+                let markdown_after_magic_blockquote = markdown_after_magic.replace(/\n/g, "\n> ") + "\n"
+
+                // console.log(markdown_after_magic_blockquote);
+                currentAnswerString += (markdown_after_magic_blockquote);
             
             // normal text
             } else if(childElements[j].tagName === 'P') {
-                console.log(childElements[j].innerText)
+                // console.log("> " + childElements[j].innerText)
+                currentAnswerString += ("> " + childElements[j].innerText + "\n")
             } else {
                 console.log("how did we get here")
             }
         }
+        console.log(currentAnswerString)
     }
     
     //for loop through answers array
