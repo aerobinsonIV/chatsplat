@@ -1,9 +1,6 @@
 function printStuff() {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, {action: "getHTML"}, function(response) {
-            var html = response.html;
-            console.log(html)
-        });
+        chrome.tabs.sendMessage(tabs[0].id, {data: "Data from popup script"});
     });
 }
 
