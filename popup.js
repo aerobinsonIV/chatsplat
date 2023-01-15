@@ -995,11 +995,10 @@ function stringToHTML(inputString){
 
 //copy text: get answer and question text of the webpage
 function copyText(htmlObject){
-    let questions = htmlObject.getElementsByClassName("min-h-[20px] flex flex-col items-start gap-4 whitespace-pre-wrap")
-    console.log(questions)
-    // let answers = htmlObject.getElementsByClassName("markdown prose w-full break-words dark:prose-invert light")
-    questionText(questions)
-    // getAnswerText(answers)
+    // let questions = htmlObject.getElementsByClassName("min-h-[20px] flex flex-col items-start gap-4 whitespace-pre-wrap")
+    let answers = htmlObject.getElementsByClassName("markdown prose w-full break-words dark:prose-invert light")
+    // questionText(questions)
+    answerText(answers)
 }
 
 function parseAnswer (answer) {
@@ -1019,18 +1018,41 @@ function questionText (questions) {
 }
 
 // TODO get rid of console logs, make statements that convert the HTML to markdown
-function getAnswerText(answers) {
+function answerText(answers) {
+    
+  //Iterate through answers
     for(i=0; i<answers.length; i++){
+
+      // Iterate through children of each answer
         let childElements = answers[i].children
         for(j=0; j<childElements.length; j++){
+            
+            //List
             if(childElements[j].tagName === 'OL'|| childElements[j].tagName === 'UL'){
                 let listElements = childElements[j].children
                 for(k=0; k<listElements.length; k++) {
                     console.log("- " + listElements[k].innerText)
                 }
+            
+            // Fancy schmancy code
             } else if(childElements[j].tagName === 'PRE') {
-                // console.log(childElements[j])
+
+                // Go 2 layers in so we get like the actual meat of the code or whatever
+                codeString = childElements[j].children[0].children[1].children[0].outerHTML
+                
+                // Replace line breaks with this special magic string that turndown will ignore
+                codeStringLineBreaks = codeString.replace(/\n/g, "|||||||||")
+
+                const turndownService = new TurndownService();
+                let markdown = turndownService.turndown(codeStringLineBreaks);
+                
+                // Insert actual line breaks in place of the special magic strings
+                let markdown_after_magic = markdown.replace(/\|\|\|\|\|\|\|\|\|/g, "\n")
+
+                console.log(markdown_after_magic);
                 continue
+            
+            // normal text
             } else if(childElements[j].tagName === 'P') {
                 console.log(childElements[j].innerText)
             } else {
